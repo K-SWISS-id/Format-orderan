@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>K-SWISS ID | Order Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0f172a;
+            height: 100vh;
+            overflow: hidden; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .step-content {
+            display: none;
+        }
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .brand-gradient {
+            background: linear-gradient(135deg, #003087 0%, #001f5c 100%);
+        }
+        .progress-bar {
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        input, select, textarea {
+            font-size: 16px !important; 
+        }
+        /* Custom message box instead of alert */
+        #errorMsg {
+            display: none;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ef4444;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="p-0 sm:p-4">
+
+    <div id="errorMsg">Mohon lengkapi semua data</div>
+
+    <div class="w-full max-w-md h-screen sm:h-[620px] bg-white sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+        
+        <!-- Header -->
+        <div class="brand-gradient p-5 text-center text-white shrink-0">
+            <h1 class="text-xl font-800 tracking-tighter uppercase">K-SWISS ID</h1>
+            <p class="text-[10px] font-semibold tracking-widest uppercase opacity-80">Produk Original Swiss</p>
+            
+            <!-- Progress Tracker -->
+            <div class="mt-4 flex items-center justify-between text-[10px] font-bold px-2 uppercase opacity-60">
+                <span id="labelStep1" class="text-white opacity-100">Info</span>
+                <span id="labelStep2">Pesanan</span>
+                <span id="labelStep3">Bayar</span>
+            </div>
+            <div class="mt-1 h-1 w-full bg-white/20 rounded-full overflow-hidden">
+                <div id="progressBar" class="progress-bar h-full bg-red-500 w-1/3"></div>
+            </div>
+        </div>
+
+        <!-- Form Content -->
+        <form id="orderForm" class="flex-1 flex flex-col p-6 overflow-hidden">
+            
+            <!-- STEP 1: DATA PENGIRIMAN -->
+            <div id="step1" class="step-content active space-y-4">
+                <h2 class="text-sm font-bold text-blue-900 uppercase tracking-wider mb-2">1. Data Pengiriman</h2>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nama Lengkap</label>
+                    <input type="text" id="nama" placeholder="Nama Penerima" 
+                           class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 text-sm focus:bg-white transition-all shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Alamat & Kode Pos</label>
+                    <textarea id="alamat" placeholder="Alamat pengiriman lengkap" rows="3"
+                              class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 text-sm focus:bg-white transition-all resize-none shadow-sm"></textarea>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">No. WhatsApp</label>
+                    <input type="tel" id="hp" placeholder="08xxxxxxxxxx" 
+                           class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 text-sm focus:bg-white transition-all shadow-sm">
+                </div>
+            </div>
+
+            <!-- STEP 2: DETAIL PRODUK -->
+            <div id="step2" class="step-content space-y-4">
+                <h2 class="text-sm font-bold text-red-600 uppercase tracking-wider mb-2">2. Detail Pesanan</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Jumlah</label>
+                        <select id="jumlah" class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 text-sm shadow-sm">
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Ukuran (EU)</label>
+                        <select id="ukuran" class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 text-sm shadow-sm">
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Pilihan Warna</label>
+                    <select id="warna" class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 text-sm shadow-sm">
+                        <option value="Classic White">Classic White</option>
+                        <option value="Navy Blue">Navy Blue</option>
+                        <option value="Stealth Black">Stealth Black</option>
+                        <option value="White Red Blue">White Red Blue</option>
+                    </select>
+                </div>
+                <div class="p-3 bg-red-50 rounded-xl border border-red-100">
+                    <p class="text-[10px] text-red-600 leading-tight">Pastikan ukuran kaki Anda sesuai dengan tabel size chart K-Swiss.</p>
+                </div>
+            </div>
+
+            <!-- STEP 3: PEMBAYARAN & HARGA -->
+            <div id="step3" class="step-content space-y-4">
+                <h2 class="text-sm font-bold text-blue-900 uppercase tracking-wider mb-2">3. Pembayaran</h2>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Pilih Bank / Wallet</label>
+                    <select id="pembayaran" class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 text-sm shadow-sm">
+                        <option value="Bank BCA">Bank BCA</option>
+                        <option value="Bank Mandiri">Bank Mandiri</option>
+                        <option value="DANA">DANA</option>
+                        <option value="OVO">OVO</option>
+                    </select>
+                </div>
+                
+                <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 shadow-sm">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[10px] text-gray-400 uppercase font-bold">Harga Produk</span>
+                        <span class="text-xs font-semibold">IDR 399.000</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-2 pb-2 border-b border-gray-200 border-dashed">
+                        <span class="text-[10px] text-gray-400 uppercase font-bold">Ongkos Kirim</span>
+                        <span class="text-xs font-semibold">+ IDR 27.000</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-[10px] text-blue-900 uppercase font-800">Total Bayar</span>
+                        <span class="text-xl font-800 text-blue-900 tracking-tight">IDR 426.000</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="mt-auto flex gap-2 pt-4">
+                <button type="button" id="prevBtn" class="hidden flex-1 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold py-4 rounded-2xl text-[10px] transition-all">
+                    KEMBALI
+                </button>
+                <button type="button" id="nextBtn" class="flex-[2] bg-blue-900 hover:bg-blue-800 text-white font-bold py-4 rounded-2xl text-[10px] shadow-lg transition-all">
+                    LANJUT
+                </button>
+                <button type="button" id="submitBtn" class="hidden flex-[2] bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-2xl text-[10px] shadow-lg transition-all flex items-center justify-center gap-2">
+                    KIRIM PESAN (WA)
+                </button>
+            </div>
+        </form>
+
+        <div class="pb-6 text-center shrink-0">
+            <p class="text-[9px] text-gray-300 font-medium uppercase tracking-widest">K-SWISS ID Official Distributor</p>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const progressBar = document.getElementById('progressBar');
+        const errorMsg = document.getElementById('errorMsg');
+
+        function showError() {
+            errorMsg.style.display = 'block';
+            setTimeout(() => { errorMsg.style.display = 'none'; }, 2000);
+        }
+
+        // Isi Pilihan Jumlah 1-12
+        const selectJumlah = document.getElementById('jumlah');
+        for (let i = 1; i <= 12; i++) {
+            let opt = document.createElement('option');
+            opt.value = i; opt.innerHTML = i + ' Pcs';
+            selectJumlah.appendChild(opt);
+        }
+
+        // Isi Pilihan Ukuran 36-47
+        const selectUkuran = document.getElementById('ukuran');
+        for (let i = 36; i <= 47; i++) {
+            let opt = document.createElement('option');
+            opt.value = i; opt.innerHTML = 'Size ' + i;
+            selectUkuran.appendChild(opt);
+        }
+
+        function updateUI() {
+            document.querySelectorAll('.step-content').forEach((step, idx) => {
+                step.classList.toggle('active', (idx + 1) === currentStep);
+            });
+
+            progressBar.style.width = `${(currentStep / totalSteps) * 100}%`;
+            
+            for(let i=1; i<=3; i++) {
+                const label = document.getElementById(`labelStep${i}`);
+                label.classList.toggle('opacity-100', i <= currentStep);
+            }
+
+            prevBtn.classList.toggle('hidden', currentStep === 1);
+            if (currentStep === totalSteps) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            const nama = document.getElementById('nama').value;
+            const alamat = document.getElementById('alamat').value;
+            const hp = document.getElementById('hp').value;
+
+            if (currentStep === 1) {
+                if(!nama.trim() || !alamat.trim() || !hp.trim()) {
+                    showError();
+                    return;
+                }
+            }
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateUI();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateUI();
+            }
+        });
+
+        // Logika Pengiriman WhatsApp yang diperkuat
+        submitBtn.addEventListener('click', function() {
+            const nama = document.getElementById('nama').value;
+            const alamat = document.getElementById('alamat').value;
+            const hp = document.getElementById('hp').value;
+            const jumlah = document.getElementById('jumlah').value;
+            const ukuran = document.getElementById('ukuran').value;
+            const warna = document.getElementById('warna').value;
+            const pembayaran = document.getElementById('pembayaran').value;
+
+            const waNumber = "6285119265951"; 
+            const message = `Halo K-SWISS.id, saya ingin memesan produk ORIGINAL SWISS:%0A%0A` +
+                            `*DATA PENGIRIMAN*%0A` +
+                            `👤 Nama: ${nama}%0A` +
+                            `📍 Alamat: ${alamat}%0A` +
+                            `📞 No HP: ${hp}%0A%0A` +
+                            `*DETAIL PESANAN*%0A` +
+                            `👟 Produk: K-Swiss Sneakers Original%0A` +
+                            `🎨 Warna: ${warna}%0A` +
+                            `📏 Ukuran: ${ukuran}%0A` +
+                            `📦 Jumlah: ${jumlah} Pcs%0A%0A` +
+                            `*PEMBAYARAN*%0A` +
+                            `💰 Total: IDR 426.000 (Produk + Ongkir)%0A` +
+                            `💳 Metode: ${pembayaran}%0A%0A` +
+                            `Mohon segera diproses, terima kasih!`;
+
+            // Gunakan api.whatsapp.com karena seringkali lebih andal daripada wa.me di lingkungan terbatas
+            const finalUrl = `https://api.whatsapp.com/send?phone=${waNumber}&text=${message}`;
+            
+            // Metode Link Tersembunyi (Sangat disarankan untuk stabilitas)
+            const ghostLink = document.createElement('a');
+            ghostLink.href = finalUrl;
+            ghostLink.target = '_blank';
+            ghostLink.rel = 'noopener noreferrer';
+            document.body.appendChild(ghostLink);
+            ghostLink.click();
+            document.body.removeChild(ghostLink);
+        });
+
+        updateUI();
+    </script>
+</body>
+</html>
+
